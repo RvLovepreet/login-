@@ -15,17 +15,17 @@ const InputFeild = props => {
   const [visible, setVisible] = useState(
     props.visibility === 'true' ? false : true,
   );
-  const [focus, setfocus] = useState(false);
+
   const imag = props.insertimg === 'true' ? true : false;
   const validation = (checktype, value) => {
     switch (checktype) {
       case 'Email' || 'email' || 'EMAIL':
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if (reg.test(value) === false) {
-          props.setEmail(value);
+          props.setEm(value);
           props.setcheck(false);
         } else {
-          props.setEmail(value);
+          props.setEm(value);
           props.setcheck(true);
         }
         break;
@@ -33,10 +33,10 @@ const InputFeild = props => {
         let reg1 =
           /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
         if (reg1.test(value) === false) {
-          props.setPassword(value);
+          props.setPsw(value);
           props.setcheck(false);
         } else {
-          props.setPassword(value);
+          props.setPsw(value);
           props.setcheck(true);
         }
         break;
@@ -46,10 +46,6 @@ const InputFeild = props => {
   };
   const visiblePassword = () => {
     setVisible(!visible);
-  };
-
-  const onblur = () => {
-    setFocus('heldf', false);
   };
 
   return (
@@ -71,7 +67,7 @@ const InputFeild = props => {
         onChangeText={text => {
           validation(props.check, text);
           if (props.onChange) {
-            props.onChange();
+            props.onChange(text);
           }
         }}
       />
@@ -124,7 +120,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   inputTextwithFocus: {
-    color: '#fff',
     fontSize: 24,
     height: 45,
     fontWeight: '400',

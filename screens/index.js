@@ -1,38 +1,30 @@
 import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './header';
 import Btn from './btn';
 import InputFeild from './inputFeild';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Pressable,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+
+import {StyleSheet, Text, View} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {constant} from '../shared/constant';
 
-const LoginForm = () => {
+const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setcheck] = useState(true);
-  const getData = text => {
-    setEmail(text);
-    console.log(text);
+
+  const login = async () => {
+    try {
+      const getuser = await AsyncStorage.getItem(email);
+      const user = JSON.parse(getuser);
+      if (user && user.email === email && user.password === password) {
+        navigation.navigate('Home', {firstname: `${user.finame}`});
+      } else {
+        alert(constant.NOTUSER);
+      }
+    } catch (err) {}
   };
 
-  const validation = () => {
-    if (email.length && password.length && check) {
-      alert(`Your Email id : ${email},\n Your Password : ${password}`);
-    } else {
-      alert(
-        'Enter valid email Or \nCreate Strong Password! \n with at least 8 character \n (using symbol,number,upper case and lower case)',
-      );
-    }
-  };
   return (
     <View style={styles.container}>
       <Header headerName={constant.LOGIN} content={constant.LOGINCONTENT} />
@@ -43,10 +35,11 @@ const LoginForm = () => {
           setEmail={setEmail}
           setcheck={setcheck}
           title="Email"
-          onTextEnter={e => console.log(e)}
+          onChange={e => setEmail(e)}
+          /* onTextEnter={e => console.log(e)} */
           precontent="Enter Email"
           visibility="true"
-          check="Email"
+          /*  check="Email" */
         />
 
         <InputFeild
@@ -54,10 +47,11 @@ const LoginForm = () => {
           setPassword={setPassword}
           setcheck={setcheck}
           title="Password"
-          onChangeText={e => getData(e)}
+          /* onChangeText={e => getData(e)} */
+          onChange={e => setPassword(e)}
           precontent="Creat Password"
           visibility="false"
-          check="Password"
+          /*  check="Password" */
           insertimg="true"
           src={require('../asset/closeeye.png')}
         />
@@ -75,7 +69,8 @@ const LoginForm = () => {
       <View style={styles.btncontainer}>
         <Btn
           emailValue={email}
-          onEventHandler={validation}
+          /*  onEventHandler={validation} */
+          onEventHandler={login}
           passwordValue={password}
           Valid={check}
           label="Login"
@@ -94,7 +89,7 @@ export default LoginForm;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 0,
   },
 
   loginForm: {

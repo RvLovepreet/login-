@@ -27,17 +27,6 @@ const Btn = ({
   passwordValue,
   onEventHandler,
 }) => {
-  const createAccount = () => {
-    if (emailValue.length && passwordValue.length && Valid) {
-      alert(
-        `Your Email id : ${emailValue},\n Your Password : ${passwordValue}`,
-      );
-    } else {
-      alert(
-        'Enter valid email Or \nCreate Strong Password! \n with at least 8 character \n (using symbol,number,upper case and lower case)',
-      );
-    }
-  };
   return (
     <View>
       <TouchableOpacity

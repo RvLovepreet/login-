@@ -57,9 +57,6 @@ const InputFeildForSignIn = props => {
   const visiblePassword = () => {
     setVisible(!visible);
   };
-  const onblur = () => {
-    setFocus('heldf', false);
-  };
 
   return (
     <View style={styles.loginHeading}>
